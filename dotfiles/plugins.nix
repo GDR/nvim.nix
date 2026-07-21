@@ -40,6 +40,7 @@
     neogit # magit clone for neovim
     grug-far-nvim # search and replace tool
     outline-nvim # symbol tree outline
+    persistence-nvim # session management
   ];
 
   # ── Coding Plugins ─────────────────────────────────────────────────────────

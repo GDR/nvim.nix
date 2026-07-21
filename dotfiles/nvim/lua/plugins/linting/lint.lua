@@ -3,6 +3,8 @@
 require("lint").linters_by_ft = {
   sh = { "shellcheck" },
   bash = { "shellcheck" },
+  bzl = { "buildifier" },
+  starlark = { "buildifier" },
 }
 
 -- Auto-lint on save and text change

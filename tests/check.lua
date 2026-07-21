@@ -20,6 +20,7 @@ local required_plugins = {
   "render-markdown",
   "nvim-surround",
   "smart-splits",
+  "catppuccin",
 }
 
 for _, plugin in ipairs(required_plugins) do
@@ -39,8 +40,9 @@ local executables = {
   "rust-analyzer",
   "gopls",
   "typescript-language-server",
+  "starpls",
 
-  -- Formatters
+  -- Formatters & Linters
   "stylua",
   "nixpkgs-fmt",
   "black",
@@ -49,6 +51,7 @@ local executables = {
   "clang-format",
   "rustfmt",
   "shfmt",
+  "buildifier",
 
   -- Linters and search tools
   "shellcheck",

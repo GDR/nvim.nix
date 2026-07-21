@@ -118,6 +118,14 @@ vim.lsp.config("ts_ls", {
   capabilities = capabilities,
 })
 
+-- Starlark / Bazel
+vim.lsp.config("starpls", {
+  cmd = { "starpls" },
+  filetypes = { "bzl", "starlark" },
+  root_markers = { "WORKSPACE", "WORKSPACE.bazel", "MODULE.bazel", "BUILD", "BUILD.bazel", ".git" },
+  capabilities = capabilities,
+})
+
 -- Enable all configured servers
 vim.lsp.enable({
   "clangd",
@@ -128,4 +136,5 @@ vim.lsp.enable({
   "rust_analyzer",
   "gopls",
   "ts_ls",
+  "starpls",
 })

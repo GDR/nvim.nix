@@ -10,6 +10,7 @@
   # ── UI Plugins ─────────────────────────────────────────────────────────────
 
   specs.ui = with pkgs.vimPlugins; [
+    catppuccin-nvim # colorscheme
     tokyonight-nvim # colorscheme
     lualine-nvim # statusline
     bufferline-nvim # buffer/tab bar
@@ -41,6 +42,7 @@
     grug-far-nvim # search and replace tool
     outline-nvim # symbol tree outline
     persistence-nvim # session management
+    vim-bazel # Bazel build & test execution
   ];
 
   # ── Coding Plugins ─────────────────────────────────────────────────────────
@@ -85,8 +87,9 @@
     rust-analyzer # Rust
     gopls # Go
     typescript-language-server # TypeScript
+    starpls # Starlark / Bazel LSP
 
-    # ── Formatters ──
+    # ── Formatters & Linters ──
     stylua # Lua
     nixpkgs-fmt # Nix
     black # Python
@@ -94,6 +97,7 @@
     prettier # TS/JS/HTML/CSS
     rustfmt # Rust
     shfmt # Bash/Shell
+    buildifier # Bazel formatter & linter
 
     # ── Linters ──
     shellcheck # Bash/Shell

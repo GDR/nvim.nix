@@ -16,6 +16,11 @@ require("neo-tree").setup({
     width = 30,
     mappings = {
       ["<space>"] = "none",
+      ["<C-h>"] = "none",
+      ["<C-j>"] = "none",
+      ["<C-k>"] = "none",
+      ["<C-l>"] = "none",
+      ["<BS>"] = "none",
       ["Y"] = function(state)
         local node = state.tree:get_node()
         local path = node:get_id()

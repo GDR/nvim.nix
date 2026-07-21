@@ -20,6 +20,8 @@ require("conform").setup({
     rust = { "rustfmt" },
     sh = { "shfmt" },
     bash = { "shfmt" },
+    bzl = { "buildifier" },
+    starlark = { "buildifier" },
   },
   format_on_save = {
     timeout_ms = 3000,

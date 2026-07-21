@@ -50,12 +50,22 @@
         }
       );
 
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+
       checks = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           neovim = self.packages.${system}.default;
         in
         {
+          formatting = pkgs.runCommand "formatting-check"
+            {
+              nativeBuildInputs = [ pkgs.nixpkgs-fmt ];
+            } ''
+            nixpkgs-fmt --check ${./.}
+            touch "$out"
+          '';
+
           neovim-config = pkgs.runCommand "neovim-config-check"
             {
               nativeBuildInputs = [ neovim ];
@@ -90,3 +100,4 @@
       };
     };
 }
+

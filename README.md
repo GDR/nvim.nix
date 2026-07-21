@@ -4,10 +4,12 @@
 
 ### *Modular, Lua-first Neovim packaged with Nix magic*
 
+[![CI](https://img.shields.io/github/actions/workflow/status/GDR/nvim.nix/ci.yml?branch=main&style=for-the-badge&logo=github&label=CI)](https://github.com/GDR/nvim.nix/actions/workflows/ci.yml)
 [![Nix Flake](https://img.shields.io/badge/Nix_Flake-5772B4?style=for-the-badge&logo=nixos&logoColor=white)](https://github.com/GDR/nvim.nix)
 [![Neovim](https://img.shields.io/badge/Neovim-000000?style=for-the-badge&logo=neovim&logoColor=57A143)](https://neovim.io)
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://www.lua.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+
 
 An opinionated, fast, and feature-rich Neovim editor configuration with pre-configured LSPs, formatters, linters, and modern UI plugins — **batteries included & zero host pollution**.
 

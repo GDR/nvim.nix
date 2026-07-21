@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    name: Nix Flake Check (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateColor/nix-installer-action@v16
+
+      - name: Magic Nix Cache
+        uses: DeterminateColor/magic-nix-cache-action@v9
+
+      - name: Run Nix Flake Checks
+        run: nix flake check --print-build-logs

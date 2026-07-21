@@ -20,23 +20,15 @@ autocmd("VimResized", {
   end,
 })
 
--- Restore cursor position when opening a buffer (ignore git commits / temporary merge files)
+-- Restore cursor position when opening a buffer
 autocmd("BufReadPost", {
   group = augroup("last_loc", { clear = true }),
   callback = function(event)
-    local exclude_filetypes = { "gitcommit", "gitrebase", "commit", "svn", "hgcommit" }
+    local exclude = { "gitcommit" }
     local buf = event.buf
-    local ft = vim.bo[buf].filetype
-    local file_name = vim.api.nvim_buf_get_name(buf)
-
-    if vim.tbl_contains(exclude_filetypes, ft)
-      or file_name:match("COMMIT_EDITMSG$")
-      or file_name:match("MERGE_MSG$")
-      or file_name:match("git%-rebase%-todo$")
-      or vim.b[buf].last_loc then
+    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_loc then
       return
     end
-
     vim.b[buf].last_loc = true
     local mark = vim.api.nvim_buf_get_mark(buf, '"')
     local lcount = vim.api.nvim_buf_line_count(buf)

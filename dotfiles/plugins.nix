@@ -20,6 +20,8 @@
     snacks-nvim # dashboard, indent guides, git browse, etc.
     which-key-nvim # keybinding popup hints
     dressing-nvim # improved vim.ui.select / vim.ui.input
+    render-markdown-nvim # markdown preview rendering
+    smart-splits-nvim # multiplexer-aware split nav
   ];
 
   # ── Editor Plugins ─────────────────────────────────────────────────────────
@@ -32,7 +34,12 @@
     trouble-nvim # diagnostics / quickfix list
     todo-comments-nvim # highlight TODO/FIXME/HACK/NOTE
     flash-nvim # motion / jump plugin
-    persistence-nvim # clean session management
+    diffview-nvim # git diff & history viewer
+    oil-nvim # file explorer buffer
+    direnv-vim # direnv environment switcher
+    neogit # magit clone for neovim
+    grug-far-nvim # search and replace tool
+    outline-nvim # symbol tree outline
   ];
 
   # ── Coding Plugins ─────────────────────────────────────────────────────────
@@ -45,6 +52,16 @@
     nvim-lint # async linting
     mini-nvim # mini.pairs, mini.surround, mini.ai, etc.
     luasnip # snippet engine
+    lazydev-nvim # Neovim Lua API autocompletion / docs
+    refactoring-nvim # code refactoring tools
+    nvim-treesitter-context # sticky header context
+    nvim-surround # surround operator & motions
+  ];
+
+  # ── AI Plugins ─────────────────────────────────────────────────────────────
+
+  specs.ai = with pkgs.vimPlugins; [
+    avante-nvim # AI powered coding assistant
   ];
 
   # ── Dependency Plugins ─────────────────────────────────────────────────────

@@ -7,6 +7,28 @@ if vim.g.dotfiles_config_status ~= "ok" then
   end
 end
 
+local required_plugins = {
+  "diffview",
+  "oil",
+  "lazydev",
+  "neogit",
+  "refactoring",
+  "avante",
+  "treesitter-context",
+  "grug-far",
+  "outline",
+  "render-markdown",
+  "nvim-surround",
+  "smart-splits",
+}
+
+for _, plugin in ipairs(required_plugins) do
+  local ok, err = pcall(require, plugin)
+  if not ok then
+    table.insert(failures, "Required plugin failed to load: " .. plugin .. " -> " .. tostring(err))
+  end
+end
+
 local executables = {
   -- LSP servers
   "clangd",

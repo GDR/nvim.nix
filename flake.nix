@@ -1,5 +1,5 @@
 {
-  description = "Standalone Neovim configuration with Lua-first config and Nix plugin management";
+  description = "Standalone Neovim configuration flake wrapped with nix-wrapper-modules";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -9,7 +9,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-wrapper-modules }@inputs:
+  outputs = inputs@{ self, nixpkgs, nix-wrapper-modules }:
     let
       supportedSystems = [
         "x86_64-linux"
@@ -17,41 +17,35 @@
         "x86_64-darwin"
         "aarch64-darwin"
       ];
-
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-
-      mkNvim = pkgs: import ./dotfiles/package.nix {
-        inherit inputs pkgs;
-        lib = pkgs.lib;
-      };
     in
     {
       packages = forAllSystems (system:
         let
-          pkgs = import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
+          pkgs = nixpkgs.legacyPackages.${system};
+          wrappedNeovim = import ./dotfiles/package.nix {
+            inherit inputs pkgs;
+            lib = pkgs.lib;
           };
-          nvim = mkNvim pkgs;
         in
         {
-          default = nvim;
-          nvim = nvim;
+          default = wrappedNeovim;
+          nvim = wrappedNeovim;
         }
       );
 
       apps = forAllSystems (system:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkg = self.packages.${system}.default;
         in
         {
           default = {
             type = "app";
-            program = "${self.packages.${system}.default}/bin/nvim";
+            program = "${pkg}/bin/nvim";
           };
           nvim = {
             type = "app";
-            program = "${self.packages.${system}.default}/bin/nvim";
+            program = "${pkg}/bin/nvim";
           };
         }
       );
@@ -59,13 +53,40 @@
       checks = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          nvim = self.packages.${system}.default;
+          neovim = self.packages.${system}.default;
         in
         {
-          default = pkgs.runCommand "check-nvim" { } ''
-            ${nvim}/bin/nvim --version > $out
+          neovim-config = pkgs.runCommand "neovim-config-check"
+            {
+              nativeBuildInputs = [ neovim ];
+            } ''
+            export HOME="$TMPDIR/home"
+            export XDG_CONFIG_HOME="$TMPDIR/config"
+            export XDG_DATA_HOME="$TMPDIR/data"
+            export XDG_STATE_HOME="$TMPDIR/state"
+            export XDG_CACHE_HOME="$TMPDIR/cache"
+            export NVIM_LOG_FILE="$TMPDIR/nvim.log"
+
+            mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
+            cp -R ${./dotfiles/nvim} "$XDG_CONFIG_HOME/nvim"
+            chmod -R u+w "$XDG_CONFIG_HOME/nvim"
+
+            nvim --headless -c "luafile ${./tests/check.lua}"
+
+            touch "$out"
           '';
         }
       );
+
+      homeManagerModules = rec {
+        nvim = { config, lib, pkgs, ... }: {
+          home.packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.default ]
+            ++ (with pkgs; [ ripgrep fzf fd ])
+            ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.wl-clipboard ];
+
+          xdg.configFile."nvim".source = ./dotfiles/nvim;
+        };
+        default = nvim;
+      };
     };
 }

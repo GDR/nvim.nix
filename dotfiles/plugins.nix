@@ -32,6 +32,7 @@
     trouble-nvim # diagnostics / quickfix list
     todo-comments-nvim # highlight TODO/FIXME/HACK/NOTE
     flash-nvim # motion / jump plugin
+    persistence-nvim # clean session management
   ];
 
   # ── Coding Plugins ─────────────────────────────────────────────────────────
